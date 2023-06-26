@@ -15,7 +15,7 @@
   const todoInput = document.querySelector("#todo-input");
   const todoList = document.querySelector("#todo-list");
   let todosInDom = {};
-  let lastId = 0;
+  let lastTodoId = 0;
 
   initializeApp();
   registerEventHandlers();
@@ -32,7 +32,7 @@
 
   function loadStoredTodos() {
     // Retrieves the last Id and store it in a temporary variable
-    lastId = parseInt(localStorage.lastId);
+    lastTodoId = parseInt(localStorage.lastTodoId);
     // Creates temporary object and stores the data parsed from
     // local storage.
     todosInDom = JSON.parse(localStorage.storedTodos);
@@ -42,7 +42,7 @@
         todosInDom[todoId].text,
         todosInDom[todoId].status,
         todoId,
-        (isUpdateNeeded = false)
+        (shouldUpdate = false)
       );
     }
   }
@@ -50,12 +50,12 @@
   function loadTodoSample() {
     // In case the local storage is empty it just
     // add a todo tutorial example to the DOM.
-    lastId = 0;
-    localStorage.lastId = lastId;
+    lastTodoId = 0;
+    localStorage.lastTodoId = lastTodoId;
     const text =
       "Sample todo… Try the checkbox and the delete \
                  button";
-    addNewTodo(text, "todo-sample", (isUpdateNeeded = false));
+    addNewTodo(text, "todo-sample", (shouldUpdate = false));
   }
 
   function registerEventHandlers() {
@@ -71,16 +71,16 @@
         todoInput.value = "";
       } else {
         // Add the new todo
-        let newTodoId = lastId + 1;
+        let newTodoId = lastTodoId + 1;
         addNewTodo(
           todoInput.value,
           "pending",
           newTodoId,
-          (isUpdateNeeded = true)
+          (shouldUpdate = true)
         );
-        // Updates the lastId values in memoryt and storage
-        lastId++;
-        localStorage.lastId = lastId;
+        // Updates the lastTodoId values in memoryt and storage
+        lastTodoId++;
+        localStorage.lastTodoId = lastTodoId;
         // Clears the input field
         todoInput.value = "";
       }
@@ -96,27 +96,27 @@
       // Behaves depending on the object clicked
       if (targetName === "BUTTON") {
         targetParent.remove(); // Removes the todo
-        updateObjectsAndStorage(targetParent, "remove");
-        // localStorage.lastId = lastId;
+        updateObjectAndStorage(targetParent, "remove");
+        // localStorage.lastTodoId = lastTodoId;
       } else if (targetName === "INPUT") {
         const todoText = targetParent.querySelector(".todo-text");
         // Mark a todo as done or pending
         todoText.classList.toggle("done");
         todoText.classList.toggle("pending");
-        updateObjectsAndStorage(targetParent, "toggle-checkbox");
+        updateObjectAndStorage(targetParent, "toggle-checkbox");
       }
     });
   }
 
   // High level function that adds a new todo element:
   //        to the dom, the todo object and the storage
-  function addNewTodo(text, status, todoId, isUpdateNeeded) {
+  function addNewTodo(text, status, todoId, shouldUpdate) {
     // Creates the new todo element
     const newTodo = createNewTodo(text, status, todoId);
     // Adds the todo to the list
     todoList.appendChild(newTodo);
-    if ((status !== "todo-sample") & isUpdateNeeded) {
-      updateObjectsAndStorage(newTodo, "add");
+    if ((status !== "todo-sample") & shouldUpdate) {
+      updateObjectAndStorage(newTodo, "add");
     }
   }
 
@@ -155,7 +155,7 @@
   //        Handles properly different changes
   //        that could take place in the todo list: insertions,
   //         removals, and change of status.
-  function updateObjectsAndStorage(todoItem, command) {
+  function updateObjectAndStorage(todoItem, operation) {
     // Excludes the sample todo from local storage.
     notSample = !todoItem.classList.contains("todo-sample");
     if (notSample) {
