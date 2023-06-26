@@ -14,8 +14,8 @@
   const todoAdderForm = document.querySelector("#add-todo");
   const todoInput = document.querySelector("#todo-input");
   const todoList = document.querySelector("#todo-list");
-  let todosInDom;
-  let lastId;
+  let todosInDom = {};
+  let lastId = 0;
 
   initializeApp();
   registerEventHandlers();
