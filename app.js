@@ -65,13 +65,13 @@
       event.preventDefault();
       // It trims the new todo input from spaces and checks
       // if there is morethan just spaces.
-      let todoInputText = todoInput.value.trim();
+      const todoInputText = todoInput.value.trim();
       if (!todoInputText) {
         alert("The new todo is empty");
         todoInput.value = "";
       } else {
         // Add the new todo
-        let newTodoId = lastTodoId + 1;
+        const newTodoId = lastTodoId + 1;
         addNewTodo(
           todoInput.value,
           "pending",
