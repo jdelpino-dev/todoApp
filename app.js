@@ -14,11 +14,10 @@
 const todoAdderForm = document.querySelector("#add-todo");
 const todoInput = document.querySelector("#todo-input");
 const todoList = document.querySelector("#todo-list");
-let todosInDom = {};
-let todosFromLocalStorage;
+let todosInDom;
 let lastId;
 
-// Initializes the App with the cobntentc of the LocalStorage
+// Initializes the App with the content of the LocalStorage
 // in case it is available.
 //    —I should encapsulate this a initialzation functions and
 //    two loading functions—.
@@ -27,28 +26,24 @@ if ("storedTodos" in localStorage && localStorage.storedTodos) {
   lastId = parseInt(localStorage.lastId);
   // Creates temporary object and stores the data parsed from
   // local storage.
-  todosFromLocalStorage = JSON.parse(localStorage.storedTodos);
+  todosInDom = JSON.parse(localStorage.storedTodos);
   // Adds the retrieved data to the DOM
-  for (let todoId in todosFromLocalStorage) {
+  for (let todoId in todosInDom) {
     addNewTodo(
-      todosFromLocalStorage[todoId].text,
-      todosFromLocalStorage[todoId].status,
+      todosInDom[todoId].text,
+      todosInDom[todoId].status,
       todoId,
       (isUpdateNeeded = false)
     );
   }
-  // Updates the data object used to keep track of changes
-  // and update the local storage in real time.
-  todosInDom = todosFromLocalStorage;
-  todosFromLocalStorage = {};
 } else {
   // In case the local storage is empty it just
   // add a todo tutorial example to the DOM.
   lastId = 0;
+  localStorage.lastId = lastId;
   const text =
     "Sample todo… Try the checkbox and the delete \
                  button";
-  localStorage.lastId = lastId;
   addNewTodo(text, "todo-sample", (isUpdateNeeded = false));
 }
 
@@ -64,7 +59,6 @@ todoAdderForm.addEventListener("submit", function (event) {
   // if there is morethan just spaces.
   let todoInputText = todoInput.value.trim();
   if (!todoInputText) {
-    ß;
     alert("The new todo is empty");
     todoInput.value = "";
   } else {
