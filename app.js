@@ -115,7 +115,7 @@
     const newTodo = createNewTodo(text, status, todoId);
     // Adds the todo to the list
     todoList.appendChild(newTodo);
-    if ((status != "todo-sample") & isUpdateNeeded) {
+    if ((status !== "todo-sample") & isUpdateNeeded) {
       updateObjectsAndStorage(newTodo, "add");
     }
   }
