@@ -1,0 +1,32 @@
+.todo-sample {
+  color: rgb(82, 79, 79);
+}
+
+.done {
+  color: green;
+  text-decoration: line-through;
+}
+
+.pending {
+  color: red;
+}
+
+#todo-list {
+  list-style-type: none;
+}
+
+.todo-text {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+ul > li {
+  margin-bottom: 3px;
+}
+
+.removerBtn {
+  display: inline-block;
+  line-height: 0.9em;
+  font-size: 0.85em;
+  font-weight: 500;
+}
