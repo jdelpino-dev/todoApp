@@ -37,12 +37,13 @@
     // local storage.
     todosInDom = JSON.parse(localStorage.storedTodos);
     // Adds the retrieved data to the DOM
+    const shouldUpdate = false;
     for (let todoId in todosInDom) {
       addNewTodo(
         todosInDom[todoId].text,
         todosInDom[todoId].status,
         todoId,
-        (shouldUpdate = false)
+        shouldUpdate
       );
     }
   }
@@ -55,7 +56,8 @@
     const text =
       "Sample todo… Try the checkbox and the delete \
                  button";
-    addNewTodo(text, "todo-sample", (shouldUpdate = false));
+    const shouldUpdate = false;
+    addNewTodo(text, "todo-sample", shouldUpdate);
   }
 
   function registerEventHandlers() {
@@ -72,12 +74,8 @@
       } else {
         // Add the new todo
         const newTodoId = lastTodoId + 1;
-        addNewTodo(
-          todoInput.value,
-          "pending",
-          newTodoId,
-          (shouldUpdate = true)
-        );
+        const shouldUpdate = true;
+        addNewTodo(todoInput.value, "pending", newTodoId, shouldUpdate);
         // Updates the lastTodoId values in memoryt and storage
         lastTodoId++;
         localStorage.lastTodoId = lastTodoId;
@@ -171,7 +169,7 @@
       }
       // Applies the proper update to JS mirror object
       // according to each case.
-      switch (command) {
+      switch (operation) {
         case "add":
           const text = todoText.innerText;
           todosInDom[todoId] = {
