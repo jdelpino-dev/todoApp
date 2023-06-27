@@ -76,7 +76,7 @@
         const newTodoId = lastTodoId + 1;
         const shouldUpdate = true;
         addNewTodo(todoInput.value, "pending", newTodoId, shouldUpdate);
-        // Updates the lastTodoId values in memoryt and storage
+        // Updates the lastTodoId values in memory and storage
         lastTodoId++;
         localStorage.lastTodoId = lastTodoId;
         // Clears the input field
