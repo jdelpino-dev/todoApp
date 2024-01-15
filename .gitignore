@@ -351,4 +351,4 @@ MigrationBackup/
 
 # VSCode settings
 .vscode/
-.code-workspace
+.code-workspace.DS_Store
